@@ -7,3 +7,6 @@ elif number % 3 == 0:
 
 elif number % 4 == 0:
     print('4의 배수다.')
+
+else:
+    print('3의 배수도 4의 배수도 아니다.')
