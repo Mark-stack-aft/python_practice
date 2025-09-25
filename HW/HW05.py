@@ -11,6 +11,9 @@ if 0 <= num <= 999:
         print('-' * 50)
         print()
         print(f'{num} 은(는) 세 자리 숫자이다.')
+        print()
+        print('-' * 50)
+        print()
 
     elif len(str(num)) == 2:
         print()
