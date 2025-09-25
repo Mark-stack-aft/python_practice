@@ -40,7 +40,7 @@ if question == 1:
     day_night = '주간'
     pay = hour_pay * work_time
 
-else:
+elif question == 2:
     day_night = '야간'
     pay = hour_pay * work_time * 1.5
 
