@@ -5,33 +5,23 @@ num = int(input('수를 입력하세요 : '))
 print()
 print('-' * 50)
 
-if 0 <= num <= 999:
+if num in range(0, 1000):
     if len(str(num)) == 3:
-        print()
-        print('-' * 50)
-        print()
-        print(f'{num} 은(는) 세 자리 숫자이다.')
-        print()
-        print('-' * 50)
-        print()
+        length = '세'
 
     elif len(str(num)) == 2:
-        print()
-        print('-' * 50)
-        print()
-        print(f'{num} 은(는) 두 자리 숫자이다.')
-        print()
-        print('-' * 50)
-        print()
+        length = '두'
 
     elif len(str(num)) == 1:
-        print()
-        print('-' * 50)
-        print()
-        print(f'{num} 은(는) 한 자리 숫자이다.')
-        print()
-        print('-' * 50)
-        print()
+        length = '한'
+        
+    print()
+    print('-' * 50)
+    print()
+    print(f'{num} 은(는) {length} 자리 숫자이다.')
+    print()
+    print('-' * 50)
+    print()
 
 else:
     print()
