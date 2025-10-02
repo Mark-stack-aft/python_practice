@@ -20,4 +20,4 @@ if 1 <= first_hour <= 24 and 1 <= second_hour <= 24 and 0 <= first_min <= 60 and
         print(f'{first_hour}:{first_min}와 {second_hour}:{second_min}의 시간이 같다.')
 
 else:
-    print('시와 분이 범위를(시 : 0 ~ 24 (0 = 24), 분 : 0 ~ 60) 벗어났습니다.')
+    print('시와 분이 범위를(시 : 1 ~ 24, 분 : 0 ~ 60) 벗어났습니다.')
