@@ -5,3 +5,10 @@ for i in range(1, 101):
         total += i
 
 print('1 ~ 100 까지의 3의 배수의 합계 : %d' % total)
+
+total = 0
+
+for i in range(0, 101, 3):
+        total += i
+
+print('1 ~ 100 까지의 3의 배수의 합계 : %d' % total)
