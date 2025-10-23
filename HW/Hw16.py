@@ -17,7 +17,7 @@ while True:
     elif go == 'y': continue
     else:
         print('잘못 입력 하셨습니다.')
-        Error    #일부러 만든 오류
+        print(1 / 0)    #일부러 만든 오류
 
 
 #생각하게 된 과정...
