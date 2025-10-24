@@ -7,8 +7,9 @@ while True:
 
     if 4 >= score >= 0: score = 5
 
-    if 100 >= score >= 1:
-        print(level[-1 * (score // 5)])
+    if 100 >= score >= 0: print(level[-1 * (score // 5)])
+
+    else: print('범위(100~0)을 벗어났습니다.')
 
 
     go = input('계속하시겠습니까?(중단 : q, 계속 : y) : ')
