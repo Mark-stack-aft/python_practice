@@ -1,13 +1,13 @@
 #그냥 해보고 싶었습니다...
 
-level = '수수수우우미미양양가가가가가가가가가가가'
+level = '수수수우우미미양양가가가가가가가가가가가가'
 
 while True:
     score = int(input('성적을 입력하세요 : '))
 
-    if 4 >= score >= 0: score = 5
+    # if 4 >= score >= 0: score = 5
 
-    if 100 >= score >= 0: print(level[-1 * (score // 5)])
+    if 100 >= score >= 0: print(level[-1 * ((score // 5) + 1)])
 
     else: print('범위(100~0)을 벗어났습니다.')
 
