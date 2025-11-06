@@ -1,11 +1,11 @@
-question = ['s_hool', 'compu_er', 'deco_ation', 'windo_', 'hi_tory']
-answer = ['c', 't', 'r', 'w', 's']
+questions = ['s_hool', 'compu_er', 'deco_ation', 'windo_', 'hi_tory']
+answers = ['c', 't', 'r', 'w', 's']
 
-for i in range(len(question)):
-    q = '%s : 밑 줄에 들어갈 알파벳은 : ' % question[i]
+for i in range(len(questions)):
+    q = '%s : 밑 줄에 들어갈 알파벳은 : ' % questions[i]
     guess = input(q)
 
-    if guess == answer[i]:
+    if guess == answers[i]:
         print('정답!')
 
     else:
