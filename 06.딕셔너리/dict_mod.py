@@ -41,17 +41,31 @@ def delete(dic):
 def correct(dic):
     key = input('수정할 단어를 입력하세요 : ')
 
-    if key in dic:
-        re_key = input('수정할 단어의 수정된 단어를 입력하세요 : ')
-        re_value = input('수정할 단어의 수정된 뜻을 입력하세요 : ')
+    if langid.classify(key)[0] == 'en':
+        if key in dic:
+            re_key = input('수정할 단어의 수정된 단어를 입력하세요 : ')
+            re_value = input('수정할 단어의 수정된 뜻을 입력하세요 : ')
 
-        dic.pop(key)
+            dic.delete(key)
 
-        if langid.classify(key)[0] == 'en':
-            dic[re_key] = re_value
+            if langid.classify(re_key)[0] == 'en':
+                dic[re_key] = re_value
 
-        if langid.classify(key)[0] == 'ko':
-            dic[re_value] = re_key
+            if langid.classify(re_key)[0] == 'ko':
+                dic[re_value] = re_key
+
+    if langid.classify(key)[0] == 'ko':
+        if key in dic.values():
+            re_key = input('수정할 단어의 수정된 단어를 입력하세요 : ')
+            re_value = input('수정할 단어의 수정된 뜻을 입력하세요 : ')
+
+            dic.delete(key)
+
+            if langid.classify(re_key)[0] == 'en':
+                dic[re_key] = re_value
+
+            if langid.classify(re_key)[0] == 'ko':
+                dic[re_value] = re_key
 
     else:
         print('오류! 수정할 단어가 없습니다!')
