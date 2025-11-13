@@ -53,5 +53,5 @@ except:
     print('오류가 발생했습니다.')
 
 finally:
-    with open('dic.json', 'w') as file:
+    with open(r'06.딕셔너리/dic.json', 'w') as file:
         json.dump(dic, file)
