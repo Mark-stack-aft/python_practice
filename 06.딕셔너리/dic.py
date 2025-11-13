@@ -1,15 +1,14 @@
 import json
-import langid
-import keyboard
-import time
 from dict_mod import *
-import traceback
+from traceback import format_exc
 
 with open(r'06.딕셔너리/dic.json', 'r') as file:
     dic = json.load(file)
 
 
 # dic = {}
+
+clear_screen()
 
 try:
     while True:
@@ -37,7 +36,7 @@ except KeyboardInterrupt:
     print('\n종료합니다.')
 
 except:
-    print('\n오류가 발생했습니다. | 오류 : %s' % traceback.format_exc().split('\n')[-2])
+    print('\n오류가 발생했습니다. | 오류 : %s' % format_exc().split('\n')[-2])
 
 finally:
     with open(r'06.딕셔너리/dic.json', 'w') as file:

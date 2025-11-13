@@ -1,8 +1,14 @@
-import json
 import langid
 import keyboard
-import time
 from password import get_password
+import os
+
+def clear_screen():
+    if os.name == 'nt':
+        os.system('cls')
+    
+    else:
+        os.system('clear')
 
 def plus(dic):
     key = input('추가할 단어를 입력하세요 : ')
