@@ -30,8 +30,13 @@ def plus(dic):
 def delete(dic):
     key = input('삭제할 단어를 입력하세요 : ')
 
-    if key in dic:
-        dic.pop(key)
+    if langid.classify(key)[0] == 'en':
+        if key in dic:
+            dic.pop(key)
+
+    if langid.classify(key)[0] == 'ko':
+        if key in dic.values():
+            dic.pop(list(dic.keys())[list(dic.values()).index(key)])
 
     else:
         print('오류! 삭제할 단어가 없습니다!')
@@ -59,7 +64,7 @@ def correct(dic):
             re_key = input('수정할 단어의 수정된 단어를 입력하세요 : ')
             re_value = input('수정할 단어의 수정된 뜻을 입력하세요 : ')
 
-            dic.pop(key)
+            dic.pop(list(dic.keys())[list(dic.values()).index(key)])
 
             if langid.classify(re_key)[0] == 'en':
                 dic[re_key] = re_value
