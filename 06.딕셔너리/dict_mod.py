@@ -102,8 +102,14 @@ def find(func, dic):
         if key_value in dic.keys():
             print(f'단어 : {key_value}, 뜻 : {dic[key_value]}')
 
+        else:
+            print('단어가 없습니다!')
+
     if langid.classify(key_value)[0] == 'ko':
         if key_value in dic.values():
             print(f'단어 : {list(dic.keys())[list(dic.values()).index(key_value)]}, 뜻 : {key_value}')
+
+        else:
+            print('단어가 없습니다!')
 
     return func, dic
