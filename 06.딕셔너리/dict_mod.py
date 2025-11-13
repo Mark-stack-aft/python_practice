@@ -59,7 +59,7 @@ def correct(dic):
             re_key = input('수정할 단어의 수정된 단어를 입력하세요 : ')
             re_value = input('수정할 단어의 수정된 뜻을 입력하세요 : ')
 
-            dic.delete(key)
+            dic.pop(key)
 
             if langid.classify(re_key)[0] == 'en':
                 dic[re_key] = re_value
