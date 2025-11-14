@@ -177,7 +177,7 @@ def find(find_wd, dic, color):
 
         else:
             print(Back.LIGHTYELLOW_EX + '단어가 없습니다!' + Style.RESET_ALL if color else '단어가 없습니다!')
-            auto_find(dic, key_value)
+            auto_find(dic, key_value, color)
 
     elif langid.classify(key_value)[0] == 'ko':
 

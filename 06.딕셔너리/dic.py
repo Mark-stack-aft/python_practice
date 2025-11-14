@@ -14,47 +14,48 @@ def make():
     print('---회원가입---')
     
     try:
-        et = True
-
-        while et:
+        while True:
             new_id = input('아이디 : ')
             
             if len(new_id) >= 10:
-                et = False
+                break
             else:
                 print('아이디의 길이는 10자 이상이여야 합니다.')
-                et = True
+                continue
             
             if new_id in persons.keys():
                 print('이미 있는 아이디 입니다.')
-                et = True
+                continue
             else:
-                et = False
+                break
 
-        et = True
-
-        while et:
+        while True:
             new_password = input('비밀번호 : ')
             
             if len(new_id) >= 10:
-                et = False
+                break
             else:
                 print('비밀번호의 길이는 10자 이상이여야 합니다.')
-                et = True
+                continue
 
         persons[new_id] = new_password
 
         with open(r'06.딕셔너리/person.json', 'w') as file:
-            persons = json.dump(persons, file, indent = 2)
+            json.dump(persons, file, indent = 2)
 
-        with open(r'06.딕셔너리/dic.json', 'w') as file:
-            dic_ = json.load(file)
-            dic_[persons] = orign_dic
-            json.dump(dic_, file, indent = 2)
+        with open(r'06.딕셔너리/dic.json', 'r') as file1:
+            dic_ = json.load(file1)
+
+        person = new_id
+        dic_[person] = orign_dic
+
+        with open(r'06.딕셔너리/dic.json', 'w') as file2:
+            json.dump(dic_, file2, indent = 2)
 
     except KeyboardInterrupt:
         print('\n회원가입이 취소되었습니다.')
 
+    return person
 def login():
     with open(r'06.딕셔너리/person.json', 'r') as file:
         persons = json.load(file)
@@ -89,8 +90,8 @@ def login():
             event = keyboard.read_event(suppress=True)
 
             if event.name == 'enter' or event.name == 'return':
-                if click == True:
-                    make()
+                if click :
+                    person = make()
                             
                 else:
                     print('\n취소되었습니다.')
@@ -109,8 +110,8 @@ def login():
     return person
 
 def diction(person, color):
-    with open(r'06.딕셔너리/dic.json', 'r') as file:
-            dic_ = json.load(file)
+    with open(r'06.딕셔너리/dic.json', 'r') as file_dic:
+            dic_ = json.load(file_dic)
             dic = dic_[person]
     try:
         if color == True:
@@ -219,8 +220,8 @@ def diction(person, color):
         if not person == '':
             dic_[person] = dic
 
-            with open(r'06.딕셔너리/dic.json', 'w') as file:
-                json.dump(dic_, file, indent = 2)
+            with open(r'06.딕셔너리/dic.json', 'w') as file_dict:
+                json.dump(dic_, file_dict, indent = 2)
 
 def dictionary(bool, person, color):
     if bool:
@@ -258,6 +259,7 @@ def main():
                 person = login()
 
                 if person == '':
+                    print('   로그인    ⚪ 비회원', end = '', flush = True)
                     continue
 
                 else:
@@ -318,4 +320,12 @@ def main():
     else:
         dictionary(True, person, color)
     
-main()
+try:
+    clear_screen()
+    main()
+
+except KeyboardInterrupt:
+    print('\n종료합니다.')
+
+# except:
+#     print()
