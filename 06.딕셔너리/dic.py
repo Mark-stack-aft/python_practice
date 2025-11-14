@@ -254,7 +254,7 @@ def main():
         event = keyboard.read_event(suppress=True)
 
         if event.name == 'enter' or event.name == 'return':
-            if click == True:
+            if click:
                 person = login()
 
                 if person == '':
@@ -262,6 +262,9 @@ def main():
 
                 else:
                     break
+
+            else:
+                break
 
         elif event.name == 'left' or event.name == 'right':
             if click == True:

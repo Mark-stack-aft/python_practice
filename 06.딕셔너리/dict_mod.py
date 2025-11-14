@@ -27,7 +27,7 @@ def clear_screen():
 
 def auto_find(dic, auto_wd, color):
     if check_internet():
-        plus_wd = trans(auto_wd)
+        plus_wd = trans(auto_wd, color)
 
         if not (langid.classify(auto_wd)[0] == 'ko' and langid.classify(plus_wd)[0] == 'ko') or not (langid.classify(auto_wd)[0] == 'en' and langid.classify(plus_wd)[0] == 'en'):
             if langid.classify(auto_wd)[0] == 'en' and langid.classify(plus_wd)[0] == 'ko':
