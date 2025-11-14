@@ -2,6 +2,7 @@ import langid
 import keyboard
 from password import get_password
 import os
+from termcolor import colored
 
 def clear_screen():
     if os.name == 'nt':
@@ -16,12 +17,14 @@ def plus(dic):
     if not key in dic.keys() and not key in dic.values():
         value = input('뜻 : ')
                 
-        if langid.classify(key)[0] == 'en':
-            dic[key] = value
+        if langid.classify(key)[0] == 'en' and langid.classify(value)[0] == 'ko':
+                dic[key] = value
 
-        if langid.classify(key)[0] == 'ko':
+        elif langid.classify(key)[0] == 'ko' and langid.classify(value)[0] == 'en':
             dic[value] = key
 
+        else:
+            print('영/한 구조가 아닙니다!')
     else:
         print('단어가 이미 있습니다!')
 
@@ -34,7 +37,7 @@ def delete(dic):
         if key in dic:
             dic.pop(key)
 
-    if langid.classify(key)[0] == 'ko':
+    elif langid.classify(key)[0] == 'ko':
         if key in dic.values():
             dic.pop(list(dic.keys())[list(dic.values()).index(key)])
 
@@ -53,24 +56,30 @@ def correct(dic):
 
             dic.delete(key)
 
-            if langid.classify(re_key)[0] == 'en':
+            if langid.classify(re_key)[0] == 'en' and langid.classify(re_value)[0] == 'ko':
                 dic[re_key] = re_value
 
-            if langid.classify(re_key)[0] == 'ko':
+            elif langid.classify(re_key)[0] == 'ko' and langid.classify(re_value)[0] == 'en':
                 dic[re_value] = re_key
 
-    if langid.classify(key)[0] == 'ko':
+            else:
+                print('영/한 구조가 아닙니다!')
+
+    elif langid.classify(key)[0] == 'ko':
         if key in dic.values():
             re_key = input('수정할 단어의 수정된 단어를 입력하세요 : ')
             re_value = input('수정할 단어의 수정된 뜻을 입력하세요 : ')
 
             dic.pop(list(dic.keys())[list(dic.values()).index(key)])
 
-            if langid.classify(re_key)[0] == 'en':
+            if langid.classify(re_key)[0] == 'en' and langid.classify(re_value)[0] == 'ko':
                 dic[re_key] = re_value
 
-            if langid.classify(re_key)[0] == 'ko':
+            elif langid.classify(re_key)[0] == 'ko' and langid.classify(re_value)[0] == 'en':
                 dic[re_value] = re_key
+
+            else:
+                print('영/한 구조가 아닙니다!')
 
     else:
         print('오류! 수정할 단어가 없습니다!')
@@ -121,8 +130,10 @@ def dic_clear(dic):
 
     return dic
 
-def find(func, dic):
-    key_value = func
+def find(find_wd, dic):
+
+    key_value = find_wd
+    
     if langid.classify(key_value)[0] == 'en':
         if key_value in dic.keys():
             print(f'단어 : {key_value}, 뜻 : {dic[key_value]}')
@@ -130,11 +141,54 @@ def find(func, dic):
         else:
             print('단어가 없습니다!')
 
-    if langid.classify(key_value)[0] == 'ko':
+    elif langid.classify(key_value)[0] == 'ko':
         if key_value in dic.values():
             print(f'단어 : {list(dic.keys())[list(dic.values()).index(key_value)]}, 뜻 : {key_value}')
 
         else:
             print('단어가 없습니다!')
 
-    return func, dic
+    return find_wd, dic
+
+def find_kw(key_word, dic):
+    key_value = key_word
+
+    found_list = []
+
+    attrs = ['bold']
+
+    if langid.classify(key_value)[0] == 'en':
+        for key in list(dic.keys()):
+            if key_value in key:
+                found_list.append(key.replace(key_value, '⬛'))
+
+        if bool(found_list) == True:
+            for printing in found_list:
+                print('단어 : ', end = '')
+                
+                for ind in printing:
+                    print(colored(key_value, attrs=['bold']) if ind == '⬛' else ind, end = '')
+
+                print(f', 뜻 : {dic[printing.replace('⬛', key_value)]}')
+
+        else:
+            print('단어가 없습니다!')
+
+    elif langid.classify(key_value)[0] == 'ko':
+        for value in list(dic.values()):
+            if key_value in value:
+                found_list.append(value.replace(key_value, '⬛'))
+
+        if bool(found_list) == True:
+            for printing in found_list:
+                print(f'단어 : {list(dic.keys())[list(dic.values()).index(printing.replace('⬛', key_value))]}, 뜻 : ', end = '')
+                
+                for ind in printing:
+                    print(colored(key_value, attrs=['bold']) if ind == '⬛' else ind, end = '')
+
+                print()
+
+        else:
+            print('단어가 없습니다!')
+
+    return key_value, dic

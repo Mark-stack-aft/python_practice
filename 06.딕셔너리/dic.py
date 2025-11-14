@@ -12,7 +12,7 @@ clear_screen()
 
 try:
     while True:
-        func = input('기능을 선택하세요 (0 : 종료, 1 : 추가, 2 : 삭제, 3 : 수정, 000 : 전부 삭제) : ')
+        func = input('기능을 선택하세요 (0 : 종료, 1 : 추가, 2 : 삭제, 3 : 수정, 4 : 검색, 5 : 키워드 검색, 000 : 전부 삭제) : ')
 
         if func == '0':
             break
@@ -29,8 +29,20 @@ try:
         elif func == '000':
             dic = dic_clear(dic)
                     
+        elif func == '4':
+
+            find_wd = input('단어나 뜻을 입력하세요 : ')
+
+            func, dic = find(find_wd, dic)
+
+        elif func == '5':
+
+            key_word = input('키워드를 입력하세요 : ')
+
+            func, dic = find_kw(key_word, dic)
+
         else:
-            func, dic = find(func, dic)
+            print('잘못 입력하였습니다.')
 
 except KeyboardInterrupt:
     print('\n종료합니다.')
