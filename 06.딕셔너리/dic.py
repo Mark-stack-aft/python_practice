@@ -327,5 +327,5 @@ try:
 except KeyboardInterrupt:
     print('\n종료합니다.')
 
-# except:
-#     print()
+except:
+    print()
