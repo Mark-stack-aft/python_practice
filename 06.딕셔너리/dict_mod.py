@@ -133,7 +133,7 @@ def dic_clear(dic):
 def find(find_wd, dic):
 
     key_value = find_wd
-    
+
     if langid.classify(key_value)[0] == 'en':
         if key_value in dic.keys():
             print(f'단어 : {key_value}, 뜻 : {dic[key_value]}')
@@ -167,7 +167,7 @@ def find_kw(key_word, dic):
                 print('단어 : ', end = '')
                 
                 for ind in printing:
-                    print(colored(key_value, attrs=['bold']) if ind == '⬛' else ind, end = '')
+                    print(colored(key_value, 'red', attrs=['bold']) if ind == '⬛' else ind, end = '')
 
                 print(f', 뜻 : {dic[printing.replace('⬛', key_value)]}')
 
@@ -184,7 +184,7 @@ def find_kw(key_word, dic):
                 print(f'단어 : {list(dic.keys())[list(dic.values()).index(printing.replace('⬛', key_value))]}, 뜻 : ', end = '')
                 
                 for ind in printing:
-                    print(colored(key_value, attrs=['bold']) if ind == '⬛' else ind, end = '')
+                    print(colored(key_value, 'red', attrs=['bold']) if ind == '⬛' else ind, end = '')
 
                 print()
 
