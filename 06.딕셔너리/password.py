@@ -1,1 +1,1 @@
-get_password = 'qlqlfqjsgh12345'
+get_password = 'qlalfqjsgh12345'

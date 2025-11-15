@@ -48,9 +48,12 @@ def plus(dic, color):
         if not value in dic.keys():
             if langid.classify(key)[0] == 'en' and langid.classify(value)[0] == 'ko':
                 dic[key] = value
+                print(Back.LIGHTGREEN_EX + '추가되었습니다.', f': {key}, {value}' + Style.RESET_ALL if color else '추가되었습니다.', f': {key}, {value}')
+
 
             elif langid.classify(key)[0] == 'ko' and langid.classify(value)[0] == 'en':
                 dic[value] = key
+                print(Back.LIGHTGREEN_EX + '추가되었습니다.', f': {key}, {value}' + Style.RESET_ALL if color else '추가되었습니다.', f': {key}, {value}')
 
             else:
                 print(Back.LIGHTYELLOW_EX + '영/한 구조가 아닙니다!' + Style.RESET_ALL if color else '영/한 구조가 아닙니다!')
@@ -69,6 +72,7 @@ def delete(dic, color):
     if langid.classify(key)[0] == 'en':
         if key in dic:
             dic.pop(key)
+            print(Back.MAGENTA + '삭제되었습니다.', f': {key}' + Style.RESET_ALL if color else '삭제되었습니다.', f': {key}')
 
         else:
             print(Back.LIGHTYELLOW_EX + '오류! 삭제할 단어가 없습니다!' + Style.RESET_ALL if color else '오류! 삭제할 단어가 없습니다!')
@@ -76,6 +80,7 @@ def delete(dic, color):
     elif langid.classify(key)[0] == 'ko':
         if key in dic.values():
             dic.pop(list(dic.keys())[list(dic.values()).index(key)])
+            print(Back.MAGENTA + '삭제되었습니다.', f': {key}' + Style.RESET_ALL if color else '삭제되었습니다.', f': {key}')
 
         else:
             print(Back.LIGHTYELLOW_EX + '오류! 삭제할 단어가 없습니다!' + Style.RESET_ALL if color else '오류! 삭제할 단어가 없습니다!')
@@ -97,9 +102,11 @@ def correct(dic, color):
 
             if langid.classify(re_key)[0] == 'en' and langid.classify(re_value)[0] == 'ko':
                 dic[re_key] = re_value
+                print(Back.LIGHTBLUE_EX + '수정되었습니다.', f'{key} => {re_key}, {re_value}' + Style.RESET_ALL if color else '수정되었습니다.', f'{key} => {re_key}, {re_value}')
 
             elif langid.classify(re_key)[0] == 'ko' and langid.classify(re_value)[0] == 'en':
                 dic[re_value] = re_key
+                print(Back.LIGHTBLUE_EX + '수정되었습니다.', f'{key} => {re_key}, {re_value}' + Style.RESET_ALL if color else '수정되었습니다.', f'{key} => {re_key}, {re_value}')
 
             else:
                 print(Back.LIGHTYELLOW_EX + '영/한 구조가 아닙니다!' + Style.RESET_ALL if color else '영/한 구조가 아닙니다!')
@@ -113,9 +120,11 @@ def correct(dic, color):
 
             if langid.classify(re_key)[0] == 'en' and langid.classify(re_value)[0] == 'ko':
                 dic[re_key] = re_value
+                print(Back.LIGHTBLUE_EX + '수정되었습니다.', f'{key} => {re_key}, {re_value}' + Style.RESET_ALL if color else '수정되었습니다.', f'{key} => {re_key}, {re_value}')
 
             elif langid.classify(re_key)[0] == 'ko' and langid.classify(re_value)[0] == 'en':
                 dic[re_value] = re_key
+                print(Back.LIGHTBLUE_EX + '수정되었습니다.', f'{key} => {re_key}, {re_value}' + Style.RESET_ALL if color else '수정되었습니다.', f'{key} => {re_key}, {re_value}')
 
             else:
                 print(Back.LIGHTYELLOW_EX + '영/한 구조가 아닙니다!' + Style.RESET_ALL if color else '영/한 구조가 아닙니다!')
@@ -211,7 +220,7 @@ def find_kw(key_word, dic, color):
     if langid.classify(key_value)[0] == 'en':
         for indx in range(len(dic)):
             if key_value in list(dic.keys())[indx]:
-                found_list_wd.append(list(dic.keys())[indx].replace(key_value, '⬛'))
+                found_list_wd.append(list(dic.keys())[indx])
                 found_list_def.append(list(dic.values())[indx])
                 num = num + 1
 
@@ -220,7 +229,7 @@ def find_kw(key_word, dic, color):
                 print(Back.BLACK + Fore.WHITE + '단어 : '  + Style.RESET_ALL if color else '단어 : ', end = '')
                 
                 for ind in found_list_wd[printing]:
-                    print(Back.BLACK + colored(key_value, 'red', attrs=['bold']) if ind == '⬛' else Fore.WHITE + ind if color else colored(key_value, 'red', attrs=['bold']) if ind == '⬛' else ind, end = '')
+                    print(Back.BLACK + colored(key_value, 'red', attrs=['bold']) if ind in key_value else Fore.WHITE + ind if color else colored(key_value, 'red', attrs=['bold']) if ind in key_value else ind, end = '')
                     print(Style.RESET_ALL if color else '', end = '')
 
                 print(Back.BLACK + Fore.WHITE + f', 뜻 : {found_list_def[printing]}' + Style.RESET_ALL if color else f', 뜻 : {found_list_def[printing]}')
@@ -231,7 +240,7 @@ def find_kw(key_word, dic, color):
     elif langid.classify(key_value)[0] == 'ko':
         for indx in range(len(dic)):
             if key_value in list(dic.values())[indx]:
-                found_list_def.append(list(dic.values())[indx].replace(key_value, '⬛'))
+                found_list_def.append(list(dic.values())[indx])
                 found_list_wd.append(list(dic.keys())[indx])
                 num = num + 1
 
@@ -240,7 +249,7 @@ def find_kw(key_word, dic, color):
                 print(Back.BLACK + Fore.WHITE + f'단어 : {found_list_wd[printing]}, 뜻 : ' + Style.RESET_ALL if color else f'단어 : {found_list_wd[printing]}, 뜻 : ', end = '')
                 
                 for ind in found_list_def[printing]:
-                    print(Back.BLACK + colored(key_value, 'red', attrs=['bold']) if ind == '⬛' else Fore.WHITE + ind if color else colored(key_value, 'red', attrs=['bold']) if ind == '⬛' else ind, end = '')
+                    print(Back.BLACK + colored(key_value, 'red', attrs=['bold']) if ind in key_value else Fore.WHITE + ind if color else colored(key_value, 'red', attrs=['bold']) if ind in key_value else ind, end = '')
                     print(Style.RESET_ALL if color else '', end = '')
 
                 print()
