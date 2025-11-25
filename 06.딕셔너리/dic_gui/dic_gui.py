@@ -5,6 +5,172 @@ import keyboard
 from orign_dic import orign_dic
 import colorama
 from colorama import Fore, Back, Style
+import socket
+import googletrans
+import langid
+from termcolor import colored
+import argostranslate.package
+import argostranslate.translate
+from tkinter import *
+import time
+import threading
+
+tk = Tk()
+tk.geometry('400x300')
+# tk.resizable(False, False)
+
+def find():
+    global dic
+    
+    find_wd = str(search_input.get())
+
+    if bool(find_wd):
+        found['text'] = f'\'{find_wd}\' 단어를 찾는 중입니다...'
+
+        def finding(): 
+            found_now = find_mod(find_wd, dic)
+
+            found['text'] = f'<\'{find_wd}\' 단어>'
+
+            text_widget.config(state = 'normal')
+
+            text_widget.delete('1.0', 'end')
+
+            text_widget.insert('end', found_now)
+
+            lenth1 = found_now.count('\n') + 1
+            lenth2 = max([len(lenth) for lenth in found_now.split('\n')]) + 20
+
+            text_widget_kw.configure(width = lenth1, height = lenth2)
+
+            lines = text_widget_kw.count("1.0", "end", "displaylines")[0]
+            
+            text_widget_kw.configure(height = lines if lines > 0 else 1, width = lenth2)
+
+            text_widget_kw.config(state = 'disabled')
+
+        thread = threading.Thread(target=finding, daemon=True)
+        thread.start()
+
+    else:
+        found['text'] = '단어 대기 중...'
+        text_widget.config(state = 'normal')
+        text_widget.delete('1.0', 'end')
+        text_widget.configure(width = 1, height = 5)
+        text_widget_kw.config(state = 'disabled')
+
+def find_kw():
+    global dic
+    
+    find_kw_wd = str(search_kw_input.get())
+
+    if bool(find_kw_wd):
+        found_kw['text'] = f'\'{find_kw_wd}\' 키워드가 들어간 단어를 찾는 중입니다...'
+
+        def finding_kw():
+            
+            text_widget_kw.config(state = 'normal')
+
+            text_widget_kw.delete('1.0', 'end')
+
+            found_now = find_kw_mod(find_kw_wd, dic)
+
+            found_kw['text'] = f'<\'{find_kw_wd}\' 키워드가 들어간 단어>'
+
+            lenth1 = found_now.count('\n') + 1
+            lenth2 = max([len(lenth) for lenth in found_now.split('\n')]) + 20
+
+            text_widget_kw.configure(width = lenth1, height = lenth2)
+
+            for ind1 in found_now.split('\n'):
+                for ind2 in range(len(ind1.split(find_kw_wd))):
+                    text_widget_kw.insert('end', ind1.split(find_kw_wd)[ind2])
+                    if not ind2 == len(ind1.split(find_kw_wd)) - 1:
+                        text_widget_kw.insert('end', find_kw_wd, 'colored_tag')
+
+                text_widget_kw.insert('end', '\n')
+                    
+            text_widget_kw.tag_configure('colored_tag', foreground = 'red')
+
+            lines = text_widget_kw.count("1.0", "end", "displaylines")[0]
+            
+            text_widget_kw.configure(height = lines if lines > 0 else 1, width = lenth2)
+
+            text_widget_kw.config(state = 'disabled')
+
+        thread = threading.Thread(target=finding_kw, daemon=True)
+        thread.start()
+
+    else:
+        found_kw['text'] = '단어 대기 중...'
+        text_widget.config(state = 'normal')
+        text_widget_kw.delete('1.0', 'end')
+        text_widget_kw.configure(width = 1, height = 5)
+        text_widget_kw.config(state = 'disabled')
+    
+
+with open(r'06.딕셔너리/dic_gui/dic.json', 'r') as file_dic:
+    dic_ = json.load(file_dic)
+    dic = dic_['']
+
+Label(tk, text = '사전', bg = 'green', fg = 'white').pack(expand = True)
+Label(tk, text = '-' * 40).pack(side = 'top', expand = True)
+
+found = Label(tk, text = '단어 대기 중...', bg = 'cyan', fg = 'black')
+text_widget = Text(tk, height = 1, width = 5, wrap = "word", bg = 'black', fg = 'white', relief = "flat", highlightthickness = 0)
+
+search_label = Label(tk,text = '검색', bg = 'cyan', fg = 'black')
+search_label.pack(expand = True)
+search_input = Entry(tk)
+search_input.pack(expand = True)
+search_button = Button(tk, text = '🔍', command = find)
+search_button.pack(expand = True)
+
+found.pack(expand = True)
+text_widget.pack(expand = True, padx = 20, pady = 20)
+
+found_kw = Label(tk, text = '단어 대기 중...', bg = 'black', fg = 'white')
+text_widget_kw = Text(tk, height = 1, width = 5, wrap = "word", bg = 'black', fg = 'white', relief = "flat", highlightthickness = 0)
+
+search_kw_label = Label(tk,text = '키위드 검색', bg = 'black', fg = 'white')
+search_kw_label.pack(expand = True)
+search_kw_input = Entry(tk)
+search_kw_input.pack(expand = True)
+search_kw_button = Button(tk, text = '🔍', command = find_kw)
+search_kw_button.pack(expand = True)
+
+found_kw.pack(expand = True)
+text_widget_kw.pack(expand = True, padx = 20, pady = 20)
+
+tk.mainloop()
+
+argostranslate.package.update_package_index()
+available_packages = argostranslate.package.get_available_packages()
+package_to_install = next(
+    filter(
+        lambda x: x.from_code == 'ko' and x.to_code == 'en',
+        available_packages
+    )
+)
+argostranslate.package.install_from_path(package_to_install.download())
+
+def has_modul():
+    modul = True
+    try:
+        keyboard.is_pressed('a')
+        colorama.init()
+        langid.classify('모듈이 있는가')
+        print(colored('모듈 설치 여부를 확인 중입니다...', 'red', attrs = ['bold']))
+        tran = googletrans.Translator().translate(text = '모듈 설치 여부를 확인 중입니다...', dest = 'en', src = 'auto')
+        print(tran.text)
+        translatedText = argostranslate.translate.translate(q = "모듈 설치 여부를 확인 중입니다...", from_code = 'ko', to_code = 'en')
+        print(translatedText)
+        check_internet()
+
+    except ImportError:
+        modul = False
+
+    return modul
 
 def make():
     with open(r'06.딕셔너리/person.json', 'r') as file:
@@ -56,6 +222,7 @@ def make():
         print('\n회원가입이 취소되었습니다.')
 
     return person
+
 def login():
     with open(r'06.딕셔너리/person.json', 'r') as file:
         persons = json.load(file)
@@ -127,16 +294,16 @@ def diction(person, color):
                         break
 
                     elif func == '1':
-                        dic = plus(dic, color)
+                        dic = plus_mod(dic, color)
 
                     elif func == '2':
-                        dic = delete(dic, color)
+                        dic = delete_mod(dic, color)
 
                     elif func == '3':
-                        dic = correct(dic, color)
+                        dic = correct_mod(dic, color)
 
                     elif func == '000':
-                        dic = dic_clear(dic, color)
+                        dic = dic_clear_mod(dic, color)
                                 
                     elif func == '4':
 
@@ -148,12 +315,12 @@ def diction(person, color):
 
                         key_word = input(Back.BLACK + Fore.WHITE + '키워드를 입력하세요 : ' + Style.RESET_ALL)
 
-                        func, dic = find_kw(key_word, dic, color)
+                        func, dic = find_kw_mod(key_word, dic, color)
 
                     elif func == '6':
 
                         tr_str = input(Back.LIGHTBLACK_EX + Fore.LIGHTWHITE_EX + '번역할 것을 입력하세요 : ' + Style.RESET_ALL)
-                        trans(tr_str, color)
+                        trans_mod(tr_str, color)
 
 
                     else:
@@ -178,16 +345,16 @@ def diction(person, color):
                         break
 
                     elif func == '1':
-                        dic = plus(dic, color)
+                        dic = plus_mod(dic, color)
 
                     elif func == '2':
-                        dic = delete(dic, color)
+                        dic = delete_mod(dic, color)
 
                     elif func == '3':
-                        dic = correct(dic, color)
+                        dic = correct_mod(dic, color)
 
                     elif func == '000':
-                        dic = dic_clear(dic, color)
+                        dic = dic_clear_mod(dic, color)
                                 
                     elif func == '4':
 
@@ -199,12 +366,12 @@ def diction(person, color):
 
                         key_word = input('키워드를 입력하세요 : ')
 
-                        func, dic = find_kw(key_word, dic, color)
+                        func, dic = find_kw_mod(key_word, dic, color)
 
                     elif func == '6':
 
                         tr_str = input('번역할 것을 입력하세요 : ')
-                        trans(tr_str, color)
+                        trans_mod(tr_str, color)
 
 
                     else:
@@ -320,12 +487,34 @@ def main():
     else:
         dictionary(True, person, color)
     
-try:
-    clear_screen()
-    main()
+def main_page():
+    try:
+        clear_screen()
+        if has_modul():
+            main()
 
-except KeyboardInterrupt:
-    print('\n종료합니다.')
+        else:
+            print('모듈이 설치되어 있지 않습니다. 모듈을 설치하시겠습니까? (1 : 네, 2 : 아니오) : ')
+            answer = input()
+            
+            if answer == '1':
+                print('모듈을 설치합니다.')
+                os.system('pip install keyboard')
+                os.system('pip install colorma')
+                os.system('pip install langid')
+                os.system('pip install termcolor')
+                os.system('pip install googletrans==4.0.0-rc1')
+                os.system('pip install socket')
 
-except:
-    print()
+            elif answer == '2':
+                raise KeyboardInterrupt
+            
+            else:
+                print('잘못 입력하셨습니다.')
+                main_page()
+
+    except KeyboardInterrupt:
+        print('\n종료합니다.')
+
+    except:
+        print()
