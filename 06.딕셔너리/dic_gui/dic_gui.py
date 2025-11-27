@@ -16,8 +16,14 @@ import time
 import threading
 
 tk = Tk()
-tk.geometry('400x300')
-# tk.resizable(False, False)
+# tk.attributes('-fullscreen', True)
+tk.title('사전')
+icon_path = '06.딕셔너리/dic_gui/dict.png'
+icon_image = PhotoImage(file = icon_path)
+tk.iconphoto(True, icon_image)
+tk.iconbitmap('06.딕셔너리/dic_gui/dict.ico')
+tk.state('zoomed')
+tk.resizable(False, False)
 
 def find():
     global dic
@@ -38,16 +44,16 @@ def find():
 
             text_widget.insert('end', found_now)
 
-            lenth1 = found_now.count('\n') + 1
-            lenth2 = max([len(lenth) for lenth in found_now.split('\n')]) + 20
+            lenth1 = max([len(lenth) for lenth in found_now.split('\n')])
+            lenth2 = found_now.count('\n') + 1
 
-            text_widget_kw.configure(width = lenth1, height = lenth2)
+            text_widget.configure(width = lenth1, height = lenth2)
 
-            lines = text_widget_kw.count("1.0", "end", "displaylines")[0]
+            # lines = text_widget.count("1.0", "end", "displaylines")[0]
             
-            text_widget_kw.configure(height = lines if lines > 0 else 1, width = lenth2)
+            # text_widget.configure(height = lines if lines > 0 else 1, width = lenth1)
 
-            text_widget_kw.config(state = 'disabled')
+            text_widget.config(state = 'disabled')
 
         thread = threading.Thread(target=finding, daemon=True)
         thread.start()
@@ -57,7 +63,7 @@ def find():
         text_widget.config(state = 'normal')
         text_widget.delete('1.0', 'end')
         text_widget.configure(width = 1, height = 5)
-        text_widget_kw.config(state = 'disabled')
+        text_widget.config(state = 'disabled')
 
 def find_kw():
     global dic
@@ -77,8 +83,8 @@ def find_kw():
 
             found_kw['text'] = f'<\'{find_kw_wd}\' 키워드가 들어간 단어>'
 
-            lenth1 = found_now.count('\n') + 1
-            lenth2 = max([len(lenth) for lenth in found_now.split('\n')]) + 20
+            lenth1 = max([len(lenth) for lenth in found_now.split('\n')]) + 20
+            lenth2 = found_now.count('\n') + 1
 
             text_widget_kw.configure(width = lenth1, height = lenth2)
 
@@ -94,7 +100,7 @@ def find_kw():
 
             lines = text_widget_kw.count("1.0", "end", "displaylines")[0]
             
-            text_widget_kw.configure(height = lines if lines > 0 else 1, width = lenth2)
+            text_widget_kw.configure(height = lines if lines > 0 else 1, width = lenth1)
 
             text_widget_kw.config(state = 'disabled')
 
@@ -113,7 +119,7 @@ with open(r'06.딕셔너리/dic_gui/dic.json', 'r') as file_dic:
     dic_ = json.load(file_dic)
     dic = dic_['']
 
-Label(tk, text = '사전', bg = 'green', fg = 'white').pack(expand = True)
+Label(tk, text = '사전', bg = 'green', fg = 'white', font = (100)).pack(expand = True)
 Label(tk, text = '-' * 40).pack(side = 'top', expand = True)
 
 found = Label(tk, text = '단어 대기 중...', bg = 'cyan', fg = 'black')
