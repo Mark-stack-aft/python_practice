@@ -62,7 +62,7 @@ def find():
         found['text'] = '단어 대기 중...'
         text_widget.config(state = 'normal')
         text_widget.delete('1.0', 'end')
-        text_widget.configure(width = 1, height = 5)
+        text_widget.configure(width = 5, height = 1)
         text_widget.config(state = 'disabled')
 
 def find_kw():
@@ -111,7 +111,7 @@ def find_kw():
         found_kw['text'] = '단어 대기 중...'
         text_widget.config(state = 'normal')
         text_widget_kw.delete('1.0', 'end')
-        text_widget_kw.configure(width = 1, height = 5)
+        text_widget_kw.configure(width = 5, height = 1)
         text_widget_kw.config(state = 'disabled')
     
 
